@@ -8,7 +8,11 @@ public class GameBoard {
 	private Stack[] cards = new Stack[5];
 	
 	public GameBoard() {
+		initializeStacks();
+	}
 	
+	private void initializeStacks() {
+		
 	}
 
 	public void pressedAt(MouseEvent press) {
@@ -42,6 +46,9 @@ public class GameBoard {
 	}
 
 	public void draw(Graphics g) {
+		for (Stack s: cards) {
+			s.draw(g);
+		}
 	}
 
 }
