@@ -7,7 +7,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 
 public class GamePanel extends JPanel {
@@ -74,7 +73,6 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent release) {
-				// TODO Auto-generated method stub
 //				System.out.println("Released at X:" + release.getX()+", Y:"+release.getY());
 				board.releasedAt(release);
 				repaint();
