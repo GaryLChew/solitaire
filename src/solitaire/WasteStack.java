@@ -16,11 +16,7 @@ public class WasteStack extends Stack {
 	
 	@Override
 	public void draw(Graphics g) {
-		List<Card> cards = super.getCards();
-		for (int i = 0;i<cards.size();i++) {
-			Card c = cards.get(i);
-			c.draw(g, super.getX(), super.getY()+Card.CARD_SPACING*i);
-		}
+		
 		
 	}
 

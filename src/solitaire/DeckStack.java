@@ -17,23 +17,8 @@ public class DeckStack extends Stack{
 	public void draw(Graphics g) {
 		List<Card> cards = super.getCards();
 		if (cards.size() > 0) {
-			Card c = cards.get(cards.size() - 1);
-			c.draw(g, super.getX(), super.getY());
-		} else {
-//			if (emptyImage == null) {
-//				String filePath = "res/images/cards/cardBack_blue3.png";
-//				try {
-//					URL url = getClass().getResource(filePath);
-//					System.out.println(filePath);
-//					emptyImage = ImageIO.read(url);
-//				} catch (IOException e) {
-//					System.out.println("Problem opening the image at " + filePath);
-//					e.printStackTrace();
-//				}
-//
-//			}
-//			g.drawImage(emptyImage, x, y, Card.getCardWidth(), Card.getCardHeight(), null);
-		}
+			super.peek().draw(g, super.getX(), super.getY());
+		} 
 	}
 
 }

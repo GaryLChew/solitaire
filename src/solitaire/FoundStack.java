@@ -17,6 +17,10 @@ public class FoundStack extends Stack {
 	@Override
 	public void draw(Graphics g) {
 		
+		//TOFIX, usual individual card get method instead?
+		System.out.println("X: "+super.getX()+" Y: "+super.getY());
+		super.peek().draw(g, super.getX(), super.getY());
+		System.out.println("DRAW");
 	}
 
 }

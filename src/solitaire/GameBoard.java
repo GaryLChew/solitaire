@@ -18,6 +18,8 @@ public class GameBoard {
 	 * 
 	 */
 
+	
+	//TOFIX, clean this up
 	private void dealStacks() {
 		stacks = new Stack[13];
 
@@ -36,21 +38,24 @@ public class GameBoard {
 
 		// Creates empty Foundation
 
-		int rightMostTableauX = 7 * (Card.CARD_WIDTH + spaceBetweenTableaus);
-		int spaceBetweenFounds = spaceBetweenTableaus;
+		int rightMostTableauX = tableauLeftPadding + spaceBetweenTableaus * 6;
+		int spaceBetweenFounds = Card.CARD_HEIGHT + 10;
 
-		int leftFoundPadding = (int) (Card.CARD_WIDTH * 1.8);
+		int leftFoundPadding = spaceBetweenTableaus;
+
 		for (int i = 7; i <= 10; i++) {
-			stacks[i] = new FoundStack(leftFoundPadding + rightMostTableauX, topPadding + (spaceBetweenFounds) * i);
+			stacks[i] = new FoundStack(fullDeck.dealRandomCards(1), rightMostTableauX + leftFoundPadding,
+					topPadding + spaceBetweenFounds * (i - 7));
 		}
 
 		int leftPadding = (int) (Card.CARD_WIDTH / 2.9);
 
 		// creates initial deck
-		stacks[11] = new DeckStack(fullDeck.dealRandomCards(24), leftPadding, topPadding);
+		stacks[11] = new DeckStack(fullDeck.dealRandomCards(0), leftPadding, topPadding);
 
 		int wasteY = (int) (Card.CARD_HEIGHT * 1.5 + 10);
-		stacks[12] = new WasteStack(leftPadding, wasteY);
+		// stacks[12] = new WasteStack(leftPadding, wasteY);
+		stacks[12] = new WasteStack(fullDeck.dealRandomCards(0), leftPadding, wasteY);
 
 	}
 

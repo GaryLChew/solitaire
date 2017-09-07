@@ -41,6 +41,15 @@ public abstract class Stack {
 		return cards;
 	}
 	
+	public Card getCard(int index) {
+		return cards.get(index);
+	}
+	
+	//TOFIX remove this method?
+	public Card peek() {
+		return cards.get(cards.size()-1);
+	}
+	
 	public int getX() {
 		return (int) x;
 	}
