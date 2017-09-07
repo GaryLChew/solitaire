@@ -15,8 +15,9 @@ public class Card {
 	private String rank;
 	private boolean faceUp;
 
-	//Update later to be dependent on resolution
-	private static int width, height;
+	//Update later to be dependent on resolution and private
+	public static final int CARD_WIDTH = 70, CARD_HEIGHT = 95;
+	public static final int CARD_SPACING = 15;
 	
 	private Image img;
 	private Image upImg;
@@ -45,14 +46,15 @@ public class Card {
 
 	public void draw(Graphics g, int x, int y) {
 		updateImage();
-		g.drawImage(img, x, y, width, height, null);
+		g.drawImage(img, x, y, CARD_WIDTH, CARD_HEIGHT, null);
 	}
 
 	private void openImage() {
 		if (downImg == null) {
-			downImg = Utility.openImagePath("res/images/cards/cardBack_blue4.png");
+			//Why do I need to do utility.openImagePath? Why is it linked to the class?
+			downImg = Utility.openImagePath("/res/images/cards/cardBack_blue4.png");
 		}
-		upImg = Utility.openImagePath("res/images/cards/card" + suit + rank + ".png");
+		upImg = Utility.openImagePath("/res/images/cards/card" + suit + rank + ".png");
 	}
 
 	private void updateImage() {
