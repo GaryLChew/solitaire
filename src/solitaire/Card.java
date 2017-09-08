@@ -46,7 +46,7 @@ public class Card {
 
 	public void draw(Graphics g, int x, int y) {
 		updateImage();
-		g.drawImage(img, x, y, CARD_WIDTH, CARD_HEIGHT, null);
+		Utility.drawScaled(g, img, x, y, CARD_WIDTH, CARD_HEIGHT);
 	}
 
 	private void openImage() {

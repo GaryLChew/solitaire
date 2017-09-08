@@ -33,7 +33,7 @@ public class GameBoard {
 		int wasteX = deckX, wasteY = deckY + deckToWasteY;
 
 		int deckToTableauX = Card.CARD_WIDTH + 10;
-		int tableauX = deckX + deckToTableauX, tableauY = topPadding;
+		int tableauX = deckX + deckToTableauX, tableauY = topPadding + 20;
 		int tableauToTableauX = Card.CARD_WIDTH + 10;
 
 		int rightmostTableauX = tableauX + tableauToTableauX * 6;
