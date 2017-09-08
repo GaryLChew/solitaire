@@ -34,4 +34,9 @@ public class FullDeckStack extends Stack {
 		return randomCards;
 	}
 
+	@Override
+	public int clickInBounds(int clickX, int clickY) {
+		return -1;
+	}
+
 }

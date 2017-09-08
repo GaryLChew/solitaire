@@ -27,11 +27,11 @@ public class Card {
 		value = cardvalue;
 		suit = cardSuit;
 		faceUp = cardFaceUp;
-		setRank();
+		updateRank();
 		openImage();
 	}
 
-	private void setRank() {
+	private void updateRank() {
 		if (2 <= value && value <= 10)
 			rank = "" + value;
 		else if (value == 1)
@@ -67,5 +67,9 @@ public class Card {
 	@Override
 	public String toString() {
 		return rank + " of " + suit + " (point value = " + value + ")";
+	}
+	
+	public void setFaceUp(boolean faceUp) {
+		this.faceUp = faceUp;
 	}
 }

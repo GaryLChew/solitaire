@@ -9,6 +9,12 @@ public abstract class Stack {
 	private double x, y;
 
 	private List<Card> cards = new ArrayList<>();
+	
+	private StackType type;
+	
+	public enum StackType {
+		TABLEAU, FOUND, DECK, WASTE
+	}
 
 	public Stack() {
 
@@ -27,14 +33,30 @@ public abstract class Stack {
 	public void add(Card cardToAdd) {
 		cards.add(cardToAdd);
 	}
+	
+	public void add(int index, Card cardToAdd) {
+		cards.add(index, cardToAdd);
+	}
 
 	public void add(List<Card> cardsToAdd) {
 		for (Card cardToAdd : cardsToAdd)
 			add(cardToAdd);
 	}
+	
+	public Card remove(int index) {
+		return cards.remove(index);
+	}
+	
+	public Card pop() {
+		return remove(cards.size()-1);
+	}
+	
+	//returns cardIndex that was selected
+	public abstract int clickInBounds(int clickX, int clickY);
 
 	public abstract void draw(Graphics g);
 
+	
 	//Getters
 	
 	public List<Card> getCards() {
@@ -58,5 +80,17 @@ public abstract class Stack {
 		return (int) y;
 	}
 	
+	public StackType getType() {
+		return type;
+	}
+	
+	public void setType(StackType type) {
+		this.type = type;
+	}
+	
+	//for quick access
+	public int size() {
+		return cards.size();
+	}
 	
 }

@@ -3,6 +3,9 @@ package solitaire;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
+
+import solitaire.Stack.StackType;
 
 public class GameBoard {
 
@@ -10,6 +13,7 @@ public class GameBoard {
 
 	public GameBoard() {
 		dealStacks();
+		reserveStack = new ArrayList<>();
 	}
 
 	/*
@@ -48,23 +52,35 @@ public class GameBoard {
 
 		// Creates empty Foundation
 		for (int i = 7; i <= 10; i++) {
-			stacks[i] = new FoundStack(fullDeck.dealRandomCards(1), foundX, foundY + foundToFoundY * (i - 7));
+			stacks[i] = new FoundStack(foundX, foundY + foundToFoundY * (i - 7));
 		}
 
 		// Deals Deck
-		stacks[11] = new DeckStack(fullDeck.dealRandomCards(1), deckX, deckY);
+		stacks[11] = new DeckStack(fullDeck.dealRandomCards(10), deckX, deckY);
 
 		// Creates empty Waste
-		stacks[12] = new WasteStack(fullDeck.dealRandomCards(3), wasteX, wasteY);
+		stacks[12] = new WasteStack(wasteX, wasteY);
 
 	}
 
 	public void pressedAt(MouseEvent press) {
 		System.out.println("Click");
+		this.press = press;
 	}
+
+	// TOFIX Maybe move this saved click somewhere else
+	MouseEvent press;
 
 	public void releasedAt(MouseEvent release) {
 		System.out.println("Release");
+
+		int distBtwnX = press.getX() - release.getX();
+		int distBtwnY = press.getY() - release.getY();
+		double distBtwn = Math.sqrt(distBtwnX ^ 2 + distBtwnY ^ 2);
+
+		if (distBtwn < 10) {
+			quickClick(press);
+		}
 
 		// temporary bool
 
@@ -83,8 +99,43 @@ public class GameBoard {
 		System.out.println("Dragged");
 	}
 
-	private void autoClick() {
+	// called when the user clicks on a stack normally
+	private void quickClick(MouseEvent click) {
+		int clickX = click.getX(), clickY = click.getY();
+		for (Stack s : stacks) {
+			int cardIndexSelected = s.clickInBounds(clickX, clickY);
+			if (cardIndexSelected >= 0) {
+				if (s.getType() == StackType.DECK) {
+					cycleWaste();
+				}
+			}
+		}
+	}
+	
+	List<Card> reserveStack;
 
+	private void cycleWaste() {
+		Stack deck = stacks[11];
+		Stack waste = stacks[12];
+		if (deck.size() == 0) {
+			while (waste.size()>0) {
+				reserveStack.add(waste.remove(0));
+			}
+			
+			while (reserveStack.size()>0) {
+				Card transfer = reserveStack.remove(0);
+				transfer.setFaceUp(false);
+				deck.add(transfer);
+			}
+		} else {
+			Card transfer = deck.pop();
+			transfer.setFaceUp(true);
+			waste.add(transfer);
+		}
+
+		if (waste.size() > 3) {
+			reserveStack.add(waste.remove(0));
+		}
 	}
 
 	public void draw(Graphics g) {
