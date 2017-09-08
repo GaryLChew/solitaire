@@ -18,44 +18,44 @@ public class GameBoard {
 	 * 
 	 */
 
-	
-	//TOFIX, clean this up
+	// Initializes all stacks of cards and randomly deals cards to them.
 	private void dealStacks() {
 		stacks = new Stack[13];
 
 		FullDeckStack fullDeck = new FullDeckStack();
 
-		int topPadding = (int) (Card.CARD_HEIGHT / 1.2);
+		// Coordinates for stacks
+		int leftPadding = (int) (Card.CARD_WIDTH / 2.9), topPadding = (int) (Card.CARD_HEIGHT / 1.2);
 
-		int tableauLeftPadding = Card.CARD_WIDTH / 2;
-		int spaceBetweenTableaus = Card.CARD_WIDTH + 10;
+		int deckX = leftPadding, deckY = topPadding;
+
+		int deckToWasteY = Card.CARD_HEIGHT + 10;
+		int wasteX = deckX, wasteY = deckY + deckToWasteY;
+
+		int deckToTableauX = Card.CARD_WIDTH + 10;
+		int tableauX = deckX + deckToTableauX, tableauY = topPadding;
+		int tableauToTableauX = Card.CARD_WIDTH + 10;
+
+		int rightmostTableauX = tableauX + tableauToTableauX * 6;
+		int rmTableauToFoundX = Card.CARD_WIDTH + 10;
+		int foundX = rightmostTableauX + rmTableauToFoundX, foundY = topPadding;
+		int foundToFoundY = Card.CARD_HEIGHT + 10;
 
 		// Deals Tableau
 		for (int i = 0; i <= 6; i++) {
-			stacks[i] = new TableauStack(fullDeck.dealRandomCards(i + 1), tableauLeftPadding + spaceBetweenTableaus * i,
-					topPadding);
+			stacks[i] = new TableauStack(fullDeck.dealRandomCards(i + 1), tableauX + tableauToTableauX * i, tableauY);
 		}
 
 		// Creates empty Foundation
-
-		int rightMostTableauX = tableauLeftPadding + spaceBetweenTableaus * 6;
-		int spaceBetweenFounds = Card.CARD_HEIGHT + 10;
-
-		int leftFoundPadding = spaceBetweenTableaus;
-
 		for (int i = 7; i <= 10; i++) {
-			stacks[i] = new FoundStack(fullDeck.dealRandomCards(1), rightMostTableauX + leftFoundPadding,
-					topPadding + spaceBetweenFounds * (i - 7));
+			stacks[i] = new FoundStack(fullDeck.dealRandomCards(1), foundX, foundY + foundToFoundY * (i - 7));
 		}
 
-		int leftPadding = (int) (Card.CARD_WIDTH / 2.9);
+		// Deals Deck
+		stacks[11] = new DeckStack(fullDeck.dealRandomCards(1), deckX, deckY);
 
-		// creates initial deck
-		stacks[11] = new DeckStack(fullDeck.dealRandomCards(0), leftPadding, topPadding);
-
-		int wasteY = (int) (Card.CARD_HEIGHT * 1.5 + 10);
-		// stacks[12] = new WasteStack(leftPadding, wasteY);
-		stacks[12] = new WasteStack(fullDeck.dealRandomCards(0), leftPadding, wasteY);
+		// Creates empty Waste
+		stacks[12] = new WasteStack(fullDeck.dealRandomCards(3), wasteX, wasteY);
 
 	}
 
