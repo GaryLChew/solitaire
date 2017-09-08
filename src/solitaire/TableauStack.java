@@ -25,7 +25,21 @@ public class TableauStack extends Stack {
 
 	@Override
 	public int clickInBounds(int clickX, int clickY) {
-		// TODO Auto-generated method stub
+		int x = super.getX(), y = super.getY();
+		if (x <= clickX && clickX < x + Card.CARD_WIDTH) {
+			if (y <= clickY) {
+				for (int i = 0; i < super.size()-1; i++) {
+					if (clickY < y + Card.CARD_SPACING * (i + 1))
+						return i;
+				}
+				
+				if (clickY < y + Card.CARD_SPACING * (super.size())+ Card.CARD_HEIGHT) {
+					return super.size()-1;
+				}
+				
+				
+			}
+		}
 		return -1;
 	}
 

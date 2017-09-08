@@ -2,11 +2,14 @@ package solitaire;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 
 public class GamePanel extends JPanel {
@@ -15,11 +18,24 @@ public class GamePanel extends JPanel {
 	Color backGround = new Color(0, 220, 235);
 	GameBoard board = new GameBoard();
 	
+	Timer repaintTimer;
 	
 	public GamePanel() {
 		this.setPreferredSize(dim);
 		this.setBackground(backGround);
 		setUpMouseListeners();
+		setUpRepaintTimer();
+	}
+	
+	//May be temporary
+	private void setUpRepaintTimer() {
+		repaintTimer = new Timer(10, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				repaint();
+			}
+		});
+		repaintTimer.start();
 	}
 	
 	private void setUpMouseListeners() {

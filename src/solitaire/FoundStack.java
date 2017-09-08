@@ -26,7 +26,13 @@ public class FoundStack extends Stack {
 
 	@Override
 	public int clickInBounds(int clickX, int clickY) {
-		// TODO Auto-generated method stub
+		int x = super.getX(), y = super.getY();
+		if (x <= clickX && clickX < x + Card.CARD_WIDTH) {
+			if (y <= clickY && clickY < y + Card.CARD_HEIGHT) {
+				if (super.size() > 0)
+					return super.size() - 1;
+			}
+		}
 		return -1;
 	}
 

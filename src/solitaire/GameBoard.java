@@ -10,6 +10,7 @@ import solitaire.Stack.StackType;
 public class GameBoard {
 
 	private Stack[] stacks;
+	private MovingStack draggedStack;
 
 	public GameBoard() {
 		dealStacks();
@@ -52,20 +53,44 @@ public class GameBoard {
 
 		// Creates empty Foundation
 		for (int i = 7; i <= 10; i++) {
-			stacks[i] = new FoundStack(foundX, foundY + foundToFoundY * (i - 7));
+			stacks[i] = new FoundStack(fullDeck.dealRandomCards(2), foundX, foundY + foundToFoundY * (i - 7));
 		}
 
 		// Deals Deck
 		stacks[11] = new DeckStack(fullDeck.dealRandomCards(10), deckX, deckY);
 
 		// Creates empty Waste
-		stacks[12] = new WasteStack(wasteX, wasteY);
+		stacks[12] = new WasteStack(fullDeck.dealRandomCards(1), wasteX, wasteY);
 
 	}
 
 	public void pressedAt(MouseEvent press) {
 		System.out.println("Click");
 		this.press = press;
+
+		System.out.println("t: " + stackClicked(press));
+		if (stackClicked(press) != null) {
+			dragPressActions(press);
+		}
+	}
+
+	private void dragPressActions(MouseEvent press) {
+		Stack stackClicked = stackClicked(press);
+
+		draggedStack = new MovingStack(stackClicked.getX(), stackClicked.getY(), press.getX(), press.getY());
+
+		StackType type = stackClicked.getType();
+
+		if (type == StackType.TABLEAU) {
+			int cardIndex = stackClicked.clickInBounds(press);
+			draggedStack.add(stackClicked.removeCards(cardIndex));
+			draggedStack.addY(stackClicked.size()*Card.CARD_SPACING);
+			draggedStack.addYOffset(-stackClicked.size()*Card.CARD_SPACING);
+		} else if (type == StackType.FOUND) {
+			draggedStack.add(stackClicked.pop());
+		} else if (type == StackType.WASTE) {
+			draggedStack.add(stackClicked.pop());
+		}
 	}
 
 	// TOFIX Maybe move this saved click somewhere else
@@ -73,14 +98,8 @@ public class GameBoard {
 
 	public void releasedAt(MouseEvent release) {
 		System.out.println("Release");
-
-		int distBtwnX = press.getX() - release.getX();
-		int distBtwnY = press.getY() - release.getY();
-		double distBtwn = Math.sqrt(distBtwnX ^ 2 + distBtwnY ^ 2);
-
-		if (distBtwn < 10) {
-			quickClick(press);
-		}
+		checkIfQuickClick(release);
+		dragReleaseActions(release);
 
 		// temporary bool
 
@@ -95,34 +114,57 @@ public class GameBoard {
 
 	}
 
+	private void dragReleaseActions(MouseEvent release) {
+
+	}
+
+	private void checkIfQuickClick(MouseEvent release) {
+		int distBtwnX = press.getX() - release.getX();
+		int distBtwnY = press.getY() - release.getY();
+		double distBtwn = Math.sqrt(distBtwnX ^ 2 + distBtwnY ^ 2);
+
+		if (distBtwn < 10) {
+			quickClick(press);
+		}
+	}
+
 	public void draggedAt(MouseEvent drag) {
 		System.out.println("Dragged");
+		draggedStack.drag(drag, press);
 	}
 
 	// called when the user clicks on a stack normally
 	private void quickClick(MouseEvent click) {
+		Stack stackClicked = stackClicked(click);
+		if (stackClicked == null) {
+			return;
+		}
+		if (stackClicked.getType() == StackType.DECK) {
+			cycleWaste();
+		}
+	}
+
+	private Stack stackClicked(MouseEvent click) {
 		int clickX = click.getX(), clickY = click.getY();
 		for (Stack s : stacks) {
 			int cardIndexSelected = s.clickInBounds(clickX, clickY);
-			if (cardIndexSelected >= 0) {
-				if (s.getType() == StackType.DECK) {
-					cycleWaste();
-				}
-			}
+			if (cardIndexSelected >= 0)
+				return s;
 		}
+		return null;
 	}
-	
+
 	List<Card> reserveStack;
 
 	private void cycleWaste() {
 		Stack deck = stacks[11];
 		Stack waste = stacks[12];
 		if (deck.size() == 0) {
-			while (waste.size()>0) {
+			while (waste.size() > 0) {
 				reserveStack.add(waste.remove(0));
 			}
-			
-			while (reserveStack.size()>0) {
+
+			while (reserveStack.size() > 0) {
 				Card transfer = reserveStack.remove(0);
 				transfer.setFaceUp(false);
 				deck.add(transfer);
@@ -142,6 +184,8 @@ public class GameBoard {
 		for (Stack s : stacks) {
 			s.draw(g);
 		}
+		if (draggedStack != null)
+			draggedStack.draw(g);
 	}
 
 }
