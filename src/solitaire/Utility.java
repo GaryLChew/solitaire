@@ -45,7 +45,6 @@ public class Utility {
 			e.printStackTrace();
 		}
 		AudioPlayer.player.start(sound);
-
 	}
 
 	// Draws image scaled user's resolution

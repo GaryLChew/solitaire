@@ -52,7 +52,7 @@ public class Card {
 	private void openImage() {
 		if (downImg == null) {
 			//Why do I need to do utility.openImagePath? Why is it linked to the class?
-			downImg = Utility.openImagePath("/res/images/cards/cardBack_blue4.png");
+			downImg = Utility.openImagePath(Directories.cardBackFP);
 		}
 		upImg = Utility.openImagePath("/res/images/cards/card" + suit + rank + ".png");
 	}
