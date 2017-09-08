@@ -54,7 +54,7 @@ public class Card {
 			//Why do I need to do utility.openImagePath? Why is it linked to the class?
 			downImg = Utility.openImagePath(Directories.cardBackFP);
 		}
-		upImg = Utility.openImagePath("/res/images/cards/card" + suit + rank + ".png");
+		upImg = Utility.openImagePath(Directories.cardFront(suit,rank));
 	}
 
 	private void updateImage() {
