@@ -101,7 +101,7 @@ public class GameBoard {
 		System.out.println("Release");
 		checkIfQuickClick(release);
 
-		if (draggedStack != null) {
+		if (draggedStack != null&&draggedStack.size()>0) {
 			dragReleaseActions(release);
 		}
 	}
