@@ -52,12 +52,19 @@ public class TableauStack extends Stack {
 		Card lastTabCard = super.peek();
 		Card firstEntryCard = entry.getCard(0);
 		
-		if (lastTabCard.isRed()==firstEntryCard.isRed()) {
-			return false;
+		if (super.size() == 0) {
+			if (firstEntryCard.getValue()!=13) {
+				return false;
+			}
 		}
+		else {
+			if (lastTabCard.isRed()==firstEntryCard.isRed()) {
+				return false;
+			}
 
-		if (lastTabCard.getValue()!=firstEntryCard.getValue()+1) {
-			return false;
+			if (lastTabCard.getValue()!=firstEntryCard.getValue()+1) {
+				return false;
+			}
 		}
 		
 		return true;

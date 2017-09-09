@@ -113,7 +113,6 @@ public class GameBoard {
 		}
 
 		StackType type = stackReleased.getType();
-		System.out.println("WEII OHH");
 		if (type == StackType.TABLEAU) {
 			stackReleased.addCardsFromStack(draggedStack);
 			draggedStack = null;
