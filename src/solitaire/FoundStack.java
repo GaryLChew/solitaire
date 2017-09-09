@@ -34,7 +34,6 @@ public class FoundStack extends Stack {
 			if (y <= clickY && clickY < y + Card.CARD_HEIGHT) {
 				// not exactly necessary to have two different returns
 				if (super.size() == 0) {
-					System.out.println("here");
 					return 0;
 				}
 				return super.size() - 1;

@@ -73,7 +73,7 @@ public class GameBoard {
 
 	private void dragPressActions(MouseEvent press) {
 		Stack stackClicked = stackClicked(press);
-		if (stackClicked == null||stackClicked.size()==0) {
+		if (stackClicked == null || stackClicked.size() == 0) {
 			return;
 		}
 
@@ -81,6 +81,7 @@ public class GameBoard {
 
 		StackType type = stackClicked.getType();
 
+		System.out.println("GOT HERE!");
 		if (type == StackType.TABLEAU) {
 			int cardIndex = stackClicked.clickInBounds(press);
 			draggedStack.add(stackClicked.removeCards(cardIndex));
@@ -107,7 +108,7 @@ public class GameBoard {
 
 	private void dragReleaseActions(MouseEvent release) {
 		Stack stackReleased = stackClicked(release);
-		if (stackReleased == null||!stackReleased.legalMove(draggedStack)) {
+		if (stackReleased == null || !stackReleased.legalMove(draggedStack)) {
 			returnDraggedStackToOriginal();
 			return;
 		}
@@ -116,15 +117,15 @@ public class GameBoard {
 		if (type == StackType.TABLEAU) {
 			stackReleased.addCardsFromStack(draggedStack);
 			draggedStack = null;
+			Stack stackPressed = stackClicked(press);
+			stackPressed.peek().setFaceUp(true);
+
 		} else if (type == StackType.FOUND) {
 			stackReleased.addCardsFromStack(draggedStack);
 			draggedStack = null;
-		} else {
-			// return to original?
 		}
-
 	}
-	
+
 	private void returnDraggedStackToOriginal() {
 		stackClicked(press).addCardsFromStack(draggedStack);
 		draggedStack = null;
@@ -141,7 +142,7 @@ public class GameBoard {
 	}
 
 	public void draggedAt(MouseEvent drag) {
-//		System.out.println("Dragged");
+		// System.out.println("Dragged");
 
 		if (draggedStack != null) {
 			draggedStack.drag(drag, press);
@@ -163,6 +164,7 @@ public class GameBoard {
 		int clickX = click.getX(), clickY = click.getY();
 		for (Stack s : stacks) {
 			int cardIndexSelected = s.clickInBounds(clickX, clickY);
+			System.out.println(cardIndexSelected);
 			if (cardIndexSelected >= 0)
 				return s;
 		}

@@ -9,27 +9,42 @@ import solitaire.Stack.StackType;
 public class WasteStack extends Stack {
 
 	public WasteStack(List<Card> cards, double x, double y) {
-		super(cards,x,y);
+		super(cards, x, y);
 		super.setType(StackType.WASTE);
 	}
-	
+
 	public WasteStack(double x, double y) {
 		super(new ArrayList<Card>(), x, y);
 	}
-	
+
 	@Override
 	public void draw(Graphics g) {
 		List<Card> cards = super.getCards();
-		for (int i = 0;i<cards.size();i++) {
+		for (int i = 0; i < cards.size(); i++) {
 			Card c = cards.get(i);
-			c.draw(g, super.getX(), super.getY()+Card.CARD_SPACING*i);
+			c.draw(g, super.getX(), super.getY() + Card.CARD_SPACING * i);
 		}
-		
+
 	}
 
 	@Override
 	public int clickInBounds(int clickX, int clickY) {
-		// TODO Auto-generated method stub
+		int x = super.getX(), y = super.getY();
+		if (x <= clickX && clickX < x + Card.CARD_WIDTH) {
+			System.out.println("here2");
+			
+			//TOFIX account for size = 0?
+			int lastCardY = y + Card.CARD_SPACING * (super.size() - 1);
+			if (lastCardY <= clickY && clickY < lastCardY + Card.CARD_HEIGHT) {
+				//Necessary for returning draggedStack
+				if (super.size()==0) {
+					return 0;
+				}
+				System.out.println("In bounds!");
+				return super.size() - 1;
+			}
+
+		}
 		return -1;
 	}
 

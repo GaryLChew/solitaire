@@ -28,20 +28,19 @@ public class TableauStack extends Stack {
 		int x = super.getX(), y = super.getY();
 		if (x <= clickX && clickX < x + Card.CARD_WIDTH) {
 			if (y <= clickY) {
-				//TOFIX Clean this up later
-				if (super.size()==0) {
+				// TOFIX Clean this up later
+				if (super.size() == 0) {
 					return 0;
 				}
-				for (int i = 0; i < super.size()-1; i++) {
+				for (int i = 0; i < super.size() - 1; i++) {
 					if (clickY < y + Card.CARD_SPACING * (i + 1))
 						return i;
 				}
-				
-				if (clickY < y + Card.CARD_SPACING * (super.size())+ Card.CARD_HEIGHT) {
-					return super.size()-1;
+
+				if (clickY < y + Card.CARD_SPACING * super.size() + Card.CARD_HEIGHT) {
+					return super.size() - 1;
 				}
-				
-				
+
 			}
 		}
 		return -1;
@@ -51,22 +50,21 @@ public class TableauStack extends Stack {
 	public boolean legalMove(Stack entry) {
 		Card lastTabCard = super.peek();
 		Card firstEntryCard = entry.getCard(0);
-		
+
 		if (super.size() == 0) {
-			if (firstEntryCard.getValue()!=13) {
+			if (firstEntryCard.getValue() != 13) {
 				return false;
 			}
-		}
-		else {
-			if (lastTabCard.isRed()==firstEntryCard.isRed()) {
+		} else {
+			if (lastTabCard.isRed() == firstEntryCard.isRed()) {
 				return false;
 			}
 
-			if (lastTabCard.getValue()!=firstEntryCard.getValue()+1) {
+			if (lastTabCard.getValue() != firstEntryCard.getValue() + 1) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 }
