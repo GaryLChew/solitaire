@@ -33,4 +33,8 @@ public class WasteStack extends Stack {
 		return -1;
 	}
 
+	@Override
+	public boolean legalMove(Stack entry) {
+		return false;
+	}
 }

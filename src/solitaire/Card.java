@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 public class Card {
 
 	private int value;
+	
+	//TOFIX change suit and/or rank to an enum later
 	private String suit;
 	private String rank;
 	private boolean faceUp;
@@ -71,5 +73,18 @@ public class Card {
 	
 	public void setFaceUp(boolean faceUp) {
 		this.faceUp = faceUp;
+	}
+	
+	//Getters
+	public boolean isRed() {
+		return (suit.equals("Diamonds")||suit.equals("Hearts"));
+	}
+	
+	public int getValue() {
+		return value;
+	}
+	
+	public String getSuit() {
+		return suit;
 	}
 }

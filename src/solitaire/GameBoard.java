@@ -53,7 +53,7 @@ public class GameBoard {
 
 		// Creates empty Foundation
 		for (int i = 7; i <= 10; i++) {
-			stacks[i] = new FoundStack(fullDeck.dealRandomCards(2), foundX, foundY + foundToFoundY * (i - 7));
+			stacks[i] = new FoundStack(foundX, foundY + foundToFoundY * (i - 7));
 		}
 
 		// Deals Deck
@@ -68,14 +68,14 @@ public class GameBoard {
 		System.out.println("Click");
 		this.press = press;
 
-		System.out.println("t: " + stackClicked(press));
-		if (stackClicked(press) != null) {
-			dragPressActions(press);
-		}
+		dragPressActions(press);
 	}
 
 	private void dragPressActions(MouseEvent press) {
 		Stack stackClicked = stackClicked(press);
+		if (stackClicked == null) {
+			return;
+		}
 
 		draggedStack = new MovingStack(stackClicked.getX(), stackClicked.getY(), press.getX(), press.getY());
 
@@ -84,8 +84,8 @@ public class GameBoard {
 		if (type == StackType.TABLEAU) {
 			int cardIndex = stackClicked.clickInBounds(press);
 			draggedStack.add(stackClicked.removeCards(cardIndex));
-			draggedStack.addY(stackClicked.size()*Card.CARD_SPACING);
-			draggedStack.addYOffset(-stackClicked.size()*Card.CARD_SPACING);
+			draggedStack.addY(stackClicked.size() * Card.CARD_SPACING);
+			draggedStack.addYOffset(-stackClicked.size() * Card.CARD_SPACING);
 		} else if (type == StackType.FOUND) {
 			draggedStack.add(stackClicked.pop());
 		} else if (type == StackType.WASTE) {
@@ -99,22 +99,34 @@ public class GameBoard {
 	public void releasedAt(MouseEvent release) {
 		System.out.println("Release");
 		checkIfQuickClick(release);
-		dragReleaseActions(release);
 
-		// temporary bool
-
-		/*
-		 * boolean isDragRelease; if (isDragRelease) { if (legal) { if
-		 * (stack1IsAPlayStack) {
-		 * 
-		 * } else {
-		 * 
-		 * } } }
-		 */
-
+		if (draggedStack != null) {
+			dragReleaseActions(release);
+		}
 	}
 
 	private void dragReleaseActions(MouseEvent release) {
+		System.out.println("1");
+		Stack stackReleased = stackClicked(release);
+		System.out.println(stackReleased);
+		if (stackReleased == null||!stackReleased.legalMove(draggedStack)) {
+			// return draggedStack to originalStack
+			return;
+		}
+		System.out.println("3");
+
+		StackType type = stackReleased.getType();
+		System.out.println("WEII OHH");
+		if (type == StackType.TABLEAU) {
+			stackReleased.addCardsFromStack(draggedStack);
+			draggedStack = null;
+		} else if (type == StackType.FOUND) {
+			System.out.println("transfered");
+			stackReleased.addCardsFromStack(draggedStack);
+			draggedStack = null;
+		} else {
+			// return to original?
+		}
 
 	}
 
@@ -129,8 +141,11 @@ public class GameBoard {
 	}
 
 	public void draggedAt(MouseEvent drag) {
-		System.out.println("Dragged");
-		draggedStack.drag(drag, press);
+//		System.out.println("Dragged");
+
+		if (draggedStack != null) {
+			draggedStack.drag(drag, press);
+		}
 	}
 
 	// called when the user clicks on a stack normally

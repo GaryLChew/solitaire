@@ -43,4 +43,19 @@ public class TableauStack extends Stack {
 		return -1;
 	}
 
+	@Override
+	public boolean legalMove(Stack entry) {
+		Card lastTabCard = super.peek();
+		Card firstEntryCard = entry.getCard(0);
+		
+		if (lastTabCard.isRed()==firstEntryCard.isRed()) {
+			return false;
+		}
+
+		if (lastTabCard.getValue()!=firstEntryCard.getValue()+1) {
+			return false;
+		}
+		
+		return true;
+	}
 }

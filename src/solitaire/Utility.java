@@ -51,7 +51,11 @@ public class Utility {
 	public static void drawScaled(Graphics g, Image img, int x, int y, int width, int height) {
 		// Temporary multiplier
 		double scale = 1;
-		g.drawImage(img, (int) (x * scale), (int) (y * scale), (int) (width * scale),
-				(int) (height * scale), null);
+		g.drawImage(img, (int) (x * scale), (int) (y * scale), (int) (width * scale), (int) (height * scale), null);
+	}
+
+	// TOFIX use this one more, think I had to parse some doubles earlier
+	public static void drawScaled(Graphics g, Image img, double x, double y, double width, double height) {
+		drawScaled(g, img, (int) x, (int) y, (int) (int) width, (int) height);
 	}
 }

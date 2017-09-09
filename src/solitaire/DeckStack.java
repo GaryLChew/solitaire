@@ -18,9 +18,11 @@ public class DeckStack extends Stack {
 
 	@Override
 	public void draw(Graphics g) {
-		List<Card> cards = super.getCards();
-		if (cards.size() > 0)
+		if (super.size() == 0) {
+			super.drawEmpty(g);
+		} else {
 			super.peek().draw(g, super.getX(), super.getY());
+		}
 	}
 
 	@Override
@@ -35,5 +37,10 @@ public class DeckStack extends Stack {
 			}
 		}
 		return -1;
+	}
+
+	@Override
+	public boolean legalMove(Stack entry) {
+		return false;
 	}
 }

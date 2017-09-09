@@ -1,6 +1,7 @@
 package solitaire;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +14,19 @@ public abstract class Stack {
 
 	private StackType type;
 
+	private static Image emptyStackImage;
+
 	public enum StackType {
 		TABLEAU, FOUND, DECK, WASTE
 	}
 
 	public Stack() {
-
+		// TOFIX, should all ArrayList initializations contain a parameter in
+		// <>?
+		cards = new ArrayList<>();
+		if (emptyStackImage == null) {
+			openEmptyStackImage();
+		}
 	}
 
 	public Stack(List<Card> cards) {
@@ -30,6 +38,53 @@ public abstract class Stack {
 		this.x = x;
 		this.y = y;
 	}
+
+	// removes and returns cards after and including the index specified
+	public List<Card> removeCards(int index) {
+		List<Card> cardsToRemove = new ArrayList<>();
+		// TOFIX May have to fix this < sign later
+		while (index < size()) {
+			cardsToRemove.add(remove(index));
+		}
+		return cardsToRemove;
+	}
+
+	// returns cardIndex that was selected
+
+	public int clickInBounds(MouseEvent click) {
+		return clickInBounds(click.getX(), click.getY());
+	}
+
+	public abstract int clickInBounds(int clickX, int clickY);
+
+	public abstract boolean legalMove(Stack entry);
+
+	// TOFIX Should this be static? It doesn't really matter though.
+	private static void openEmptyStackImage() {
+		emptyStackImage = Utility.openImagePath(Directories.cardEmptyFP);
+	}
+
+	public abstract void draw(Graphics g);
+
+	public void drawEmpty(Graphics g) {
+		double scale = .9;
+		double xBorder = ((1-scale) * Card.CARD_WIDTH) / 2;
+		double yBorder = ((1-scale) * Card.CARD_HEIGHT) / 2;
+		Utility.drawScaled(g, emptyStackImage, x + xBorder, y + yBorder, Card.CARD_WIDTH * scale,
+				Card.CARD_HEIGHT * scale);
+	}
+
+	// Getters
+
+	public List<Card> getCards() {
+		return cards;
+	}
+
+	public Card getCard(int index) {
+		return cards.get(index);
+	}
+
+	// TOFIX remove this method?
 
 	public void add(Card cardToAdd) {
 		cards.add(cardToAdd);
@@ -44,47 +99,27 @@ public abstract class Stack {
 			add(cardToAdd);
 	}
 
+	public void addCardsFromStack(Stack stackToAdd) {
+		add(stackToAdd.getCards());
+	}
+
 	public Card remove(int index) {
 		return cards.remove(index);
 	}
 
-	// removes and returns cards after and including the index specified
-	public List<Card> removeCards(int index) {
-		List<Card> cardsToRemove = new ArrayList<>();
-		// TOFIX May have to fix this < sign later
-		while (index < size()) {
-			cardsToRemove.add(remove(index));
+	// TOFIX, add null checkers
+	public Card peek() {
+		if (size() == 0) {
+			return null;
 		}
-		return cardsToRemove;
+		return cards.get(cards.size() - 1);
 	}
 
 	public Card pop() {
+		if (size() == 0) {
+			return null;
+		}
 		return remove(cards.size() - 1);
-	}
-
-	// returns cardIndex that was selected
-
-	public int clickInBounds(MouseEvent click) {
-		return clickInBounds(click.getX(), click.getY());
-	}
-
-	public abstract int clickInBounds(int clickX, int clickY);
-
-	public abstract void draw(Graphics g);
-
-	// Getters
-
-	public List<Card> getCards() {
-		return cards;
-	}
-
-	public Card getCard(int index) {
-		return cards.get(index);
-	}
-
-	// TOFIX remove this method?
-	public Card peek() {
-		return cards.get(cards.size() - 1);
 	}
 
 	public int getX() {

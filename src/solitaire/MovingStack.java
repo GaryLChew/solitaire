@@ -45,4 +45,8 @@ public class MovingStack extends Stack {
 		yOffset+= toAdd;
 	}
 
+	@Override
+	public boolean legalMove(Stack entry) {
+		return false;
+	}
 }

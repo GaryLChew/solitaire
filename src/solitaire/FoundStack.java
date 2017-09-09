@@ -20,8 +20,11 @@ public class FoundStack extends Stack {
 
 	@Override
 	public void draw(Graphics g) {
-		if (super.getCards().size() > 0)
+		if (super.size() == 0) {
+			super.drawEmpty(g);
+		} else {
 			super.peek().draw(g, super.getX(), super.getY());
+		}
 	}
 
 	@Override
@@ -29,11 +32,36 @@ public class FoundStack extends Stack {
 		int x = super.getX(), y = super.getY();
 		if (x <= clickX && clickX < x + Card.CARD_WIDTH) {
 			if (y <= clickY && clickY < y + Card.CARD_HEIGHT) {
-				if (super.size() > 0)
-					return super.size() - 1;
+				// not exactly necessary to have two different returns
+				if (super.size() == 0) {
+					System.out.println("here");
+					return 0;
+				}
+				return super.size() - 1;
 			}
 		}
 		return -1;
 	}
 
+	@Override
+	public boolean legalMove(Stack entry) {
+		System.out.println("CHECKING");
+		Card firstEntryCard = entry.getCard(0);
+
+		System.out.println(firstEntryCard.getValue());
+		if (super.size() == 0 && firstEntryCard.getValue() == 1) {
+			return true;
+		}
+
+		Card lastFoundCard = super.peek();
+
+		// TOFIX make this line shorter later and maybe clean up this entire
+		// method
+		if (super.size() > 0 && lastFoundCard.getValue() == firstEntryCard.getValue() - 1
+				&& lastFoundCard.getSuit().equals(firstEntryCard.getSuit())) {
+			return true;
+		}
+
+		return false;
+	}
 }
