@@ -73,7 +73,7 @@ public class GameBoard {
 
 	private void dragPressActions(MouseEvent press) {
 		Stack stackClicked = stackClicked(press);
-		if (stackClicked == null) {
+		if (stackClicked == null||stackClicked.size()==0) {
 			return;
 		}
 
@@ -106,14 +106,11 @@ public class GameBoard {
 	}
 
 	private void dragReleaseActions(MouseEvent release) {
-		System.out.println("1");
 		Stack stackReleased = stackClicked(release);
-		System.out.println(stackReleased);
 		if (stackReleased == null||!stackReleased.legalMove(draggedStack)) {
-			// return draggedStack to originalStack
+			returnDraggedStackToOriginal();
 			return;
 		}
-		System.out.println("3");
 
 		StackType type = stackReleased.getType();
 		System.out.println("WEII OHH");
@@ -121,13 +118,17 @@ public class GameBoard {
 			stackReleased.addCardsFromStack(draggedStack);
 			draggedStack = null;
 		} else if (type == StackType.FOUND) {
-			System.out.println("transfered");
 			stackReleased.addCardsFromStack(draggedStack);
 			draggedStack = null;
 		} else {
 			// return to original?
 		}
 
+	}
+	
+	private void returnDraggedStackToOriginal() {
+		stackClicked(press).addCardsFromStack(draggedStack);
+		draggedStack = null;
 	}
 
 	private void checkIfQuickClick(MouseEvent release) {

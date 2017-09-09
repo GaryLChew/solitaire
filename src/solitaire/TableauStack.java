@@ -28,6 +28,10 @@ public class TableauStack extends Stack {
 		int x = super.getX(), y = super.getY();
 		if (x <= clickX && clickX < x + Card.CARD_WIDTH) {
 			if (y <= clickY) {
+				//TOFIX Clean this up later
+				if (super.size()==0) {
+					return 0;
+				}
 				for (int i = 0; i < super.size()-1; i++) {
 					if (clickY < y + Card.CARD_SPACING * (i + 1))
 						return i;

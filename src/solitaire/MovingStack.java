@@ -9,13 +9,15 @@ public class MovingStack extends Stack {
 
 	// offset between the original stack's and press's coordinates
 	private double xOffset, yOffset;
+	
+	private int originalStackIndex = -1;
 
 	public MovingStack(double x, double y, double pressX, double pressY) {
 		super(new ArrayList<Card>(), x, y);
 		xOffset = pressX - x;
 		yOffset = pressY - y;
 	}
-
+	
 	@Override
 	public int clickInBounds(int clickX, int clickY) {
 		return -1;
