@@ -14,7 +14,7 @@ public class GameBoard {
 
 	public GameBoard() {
 		dealStacks();
-		reserveStack = new ArrayList<>();
+		reservedCards = new ArrayList<>();
 	}
 
 	/*
@@ -177,18 +177,18 @@ public class GameBoard {
 		return null;
 	}
 
-	List<Card> reserveStack;
+	List<Card> reservedCards;
 
 	private void cycleWaste() {
 		Stack deck = stacks[11];
 		Stack waste = stacks[12];
 		if (deck.size() == 0) {
 			while (waste.size() > 0) {
-				reserveStack.add(waste.remove(0));
+				reservedCards.add(0, waste.remove(0));
 			}
 
-			while (reserveStack.size() > 0) {
-				Card transfer = reserveStack.remove(0);
+			while (reservedCards.size() > 0) {
+				Card transfer = reservedCards.remove(0);
 				transfer.setFaceUp(false);
 				deck.add(transfer);
 			}
@@ -199,7 +199,7 @@ public class GameBoard {
 		}
 
 		if (waste.size() > 3) {
-			reserveStack.add(waste.remove(0));
+			reservedCards.add(0, waste.remove(0));
 		}
 	}
 

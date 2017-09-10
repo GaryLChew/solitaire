@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.spi.CalendarDataProvider;
 
 public abstract class Stack {
 
@@ -68,8 +69,8 @@ public abstract class Stack {
 
 	public void drawEmpty(Graphics g) {
 		double scale = .9;
-		double xBorder = ((1-scale) * Card.CARD_WIDTH) / 2;
-		double yBorder = ((1-scale) * Card.CARD_HEIGHT) / 2;
+		double xBorder = ((1 - scale) * Card.CARD_WIDTH) / 2;
+		double yBorder = ((1 - scale) * Card.CARD_HEIGHT) / 2;
 		Utility.drawScaled(g, emptyStackImage, x + xBorder, y + yBorder, Card.CARD_WIDTH * scale,
 				Card.CARD_HEIGHT * scale);
 	}
