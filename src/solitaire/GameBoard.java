@@ -101,7 +101,7 @@ public class GameBoard {
 		System.out.println("Release");
 		checkIfQuickClick(release);
 
-		if (draggedStack != null&&draggedStack.size()>0) {
+		if (draggedStack != null && draggedStack.size() > 0) {
 			dragReleaseActions(release);
 		}
 	}
@@ -117,12 +117,16 @@ public class GameBoard {
 		if (type == StackType.TABLEAU) {
 			stackReleased.addCardsFromStack(draggedStack);
 			draggedStack = null;
+			// Maybe move this to another method so I don't have to repeat it
+			// twice or make this better somehow
 			Stack stackPressed = stackClicked(press);
 			stackPressed.peek().setFaceUp(true);
 
 		} else if (type == StackType.FOUND) {
 			stackReleased.addCardsFromStack(draggedStack);
 			draggedStack = null;
+			Stack stackPressed = stackClicked(press);
+			stackPressed.peek().setFaceUp(true);
 		}
 	}
 
@@ -164,7 +168,6 @@ public class GameBoard {
 		int clickX = click.getX(), clickY = click.getY();
 		for (Stack s : stacks) {
 			int cardIndexSelected = s.clickInBounds(clickX, clickY);
-			System.out.println(cardIndexSelected);
 			if (cardIndexSelected >= 0)
 				return s;
 		}
