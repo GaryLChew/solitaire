@@ -77,7 +77,7 @@ public class GameBoard {
 			return;
 		}
 
-		draggedStack = new MovingStack(stackClicked.getX(), stackClicked.getY(), press.getX(), press.getY());
+		draggedStack = new MovingStack(stackClicked, press);
 
 		StackType type = stackClicked.getType();
 
@@ -139,6 +139,7 @@ public class GameBoard {
 	}
 
 	private void checkIfQuickClick(MouseEvent release) {
+		//TOFIX fix this for resolution scaling
 		int distBtwnX = press.getX() - release.getX();
 		int distBtwnY = press.getY() - release.getY();
 		double distBtwn = Math.sqrt(distBtwnX ^ 2 + distBtwnY ^ 2);
@@ -152,7 +153,7 @@ public class GameBoard {
 		// System.out.println("Dragged");
 
 		if (draggedStack != null) {
-			draggedStack.drag(drag, press);
+			draggedStack.drag(drag);
 		}
 	}
 
@@ -168,9 +169,8 @@ public class GameBoard {
 	}
 
 	private Stack stackClicked(MouseEvent click) {
-		int clickX = click.getX(), clickY = click.getY();
 		for (Stack s : stacks) {
-			int cardIndexSelected = s.clickInBounds(clickX, clickY);
+			int cardIndexSelected = s.clickInBounds(click);
 			if (cardIndexSelected >= 0)
 				return s;
 		}

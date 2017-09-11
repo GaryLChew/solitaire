@@ -53,9 +53,14 @@ public abstract class Stack {
 	// returns cardIndex that was selected
 
 	public int clickInBounds(MouseEvent click) {
-		return clickInBounds(click.getX(), click.getY());
+		double inverseScale = 1/Settings.getScale();
+		int x = (int) Utility.inverseScaled(click.getX());
+		int y = (int) Utility.inverseScaled(click.getY());
+		return clickInBounds(x, y);
 	}
 
+	// This should never be used outside of the Stack class or its subclasses
+	// Or at the very least, inverse scaled coordinates must be inputed
 	public abstract int clickInBounds(int clickX, int clickY);
 
 	public abstract boolean legalMove(Stack entry);

@@ -9,15 +9,19 @@ public class MovingStack extends Stack {
 
 	// offset between the original stack's and press's coordinates
 	private double xOffset, yOffset;
-	
+
 	private int originalStackIndex = -1;
 
-	public MovingStack(double x, double y, double pressX, double pressY) {
-		super(new ArrayList<Card>(), x, y);
-		xOffset = pressX - x;
-		yOffset = pressY - y;
+	public MovingStack(Stack stackClicked, MouseEvent press) {
+		super(new ArrayList<Card>(), stackClicked.getX(), stackClicked.getY());
+
+		double invScalPressX = Utility.inverseScaled(press.getX());
+		double invScalPressY = Utility.inverseScaled(press.getY());
+
+		xOffset = invScalPressX - super.getX();
+		yOffset = invScalPressY - super.getY();
 	}
-	
+
 	@Override
 	public int clickInBounds(int clickX, int clickY) {
 		return -1;
@@ -32,9 +36,12 @@ public class MovingStack extends Stack {
 		}
 	}
 
-	public void drag(MouseEvent drag, MouseEvent press) {
-		super.setX(drag.getX());
-		super.setY(drag.getY());
+	public void drag(MouseEvent drag) {
+		double inverseScale = 1 / Settings.getScale();
+		int x = (int) (drag.getX() * inverseScale);
+		int y = (int) (drag.getY() * inverseScale);
+		super.setX(x);
+		super.setY(y);
 		correctOffset();
 	}
 
@@ -42,9 +49,9 @@ public class MovingStack extends Stack {
 		super.setX(super.getX() - xOffset);
 		super.setY(super.getY() - yOffset);
 	}
-	
+
 	public void addYOffset(double toAdd) {
-		yOffset+= toAdd;
+		yOffset += toAdd;
 	}
 
 	@Override

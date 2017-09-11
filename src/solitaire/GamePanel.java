@@ -1,4 +1,5 @@
 package solitaire;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,23 +12,22 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-
 public class GamePanel extends JPanel {
 
-	Dimension dim = new Dimension(1060,700);
+	Dimension dim = new Dimension((int) (1060 * Settings.getScale()), (int) (Settings.getScale()*700));
 	Color backGround = new Color(0, 220, 235);
 	GameBoard board = new GameBoard();
-	
+
 	Timer repaintTimer;
-	
+
 	public GamePanel() {
 		this.setPreferredSize(dim);
 		this.setBackground(backGround);
 		setUpMouseListeners();
 		setUpRepaintTimer();
 	}
-	
-	//May be temporary
+
+	// May be temporary
 	private void setUpRepaintTimer() {
 		repaintTimer = new Timer(10, new ActionListener() {
 			@Override
@@ -37,7 +37,7 @@ public class GamePanel extends JPanel {
 		});
 		repaintTimer.start();
 	}
-	
+
 	private void setUpMouseListeners() {
 		setUpML();
 		setUPMML();
@@ -49,16 +49,17 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void mouseDragged(MouseEvent drag) {
-//				System.out.println("Dragged at X:" + drag.getX()+", Y:"+drag.getY());
+				// System.out.println("Dragged at X:" + drag.getX()+",
+				// Y:"+drag.getY());
 				board.draggedAt(drag);
 				repaint();
 			}
 
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
-				
+
 			}
-			
+
 		});
 	}
 
@@ -67,33 +68,35 @@ public class GamePanel extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				
+
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				
+
 			}
 
 			@Override
 			public void mousePressed(MouseEvent press) {
-//				System.out.println("Pressed at X:" + press.getX()+", Y:"+press.getY());
+				// System.out.println("Pressed at X:" + press.getX()+",
+				// Y:"+press.getY());
 				board.pressedAt(press);
 				repaint();
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent release) {
-//				System.out.println("Released at X:" + release.getX()+", Y:"+release.getY());
+				// System.out.println("Released at X:" + release.getX()+",
+				// Y:"+release.getY());
 				board.releasedAt(release);
 				repaint();
 			}
-			
+
 		});
 		this.requestFocusInWindow();
 	}
@@ -101,7 +104,8 @@ public class GamePanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		board.draw(g);;
+		board.draw(g);
+		;
 	}
-	
+
 }
