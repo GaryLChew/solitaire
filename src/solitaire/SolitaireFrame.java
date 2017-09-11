@@ -17,11 +17,13 @@ public class SolitaireFrame extends JFrame {
 	public SolitaireFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// TOFIX need to change this later cause scale needs to be defined
-		// earlier
+		// TOFIX Really, I'm not sure if the size really even matters cause it's
+		// changed in GamePanel later anyways
 		double scale = Settings.getScale();
-//		setBounds(100 * scale, 50 * scale, 450 * scale, 300 * scale);
-		setBounds(100,50,1000,1000);
+		// setBounds(100 * scale, 50 * scale, 450 * scale, 300 * scale);
+		int leftBorder = (Settings.screenWidth - Settings.scaledWindowWidth())/2;
+		int topBorder = (Settings.screenHeight - Settings.scaledWindowHeight())/2;
+		setBounds(leftBorder, topBorder, Settings.scaledWindowWidth(), Settings.scaledWindowHeight());
 
 		// TOFIX, maybe move this somewhere else later
 		setResizable(false);

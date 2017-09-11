@@ -11,6 +11,9 @@ public class SolitaireLauncher {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					// TOFIX maybe put this somewhere else
+					createSettings();
+
 					SolitaireFrame frame = new SolitaireFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -18,6 +21,19 @@ public class SolitaireLauncher {
 				}
 			}
 		});
+	}
+
+	private static void createSettings() {
+		fixScaling();
+	}
+
+	private static void fixScaling() {
+
+		// ratios screen resolution / original window resolution
+		double xRatio = Settings.screenWidth / Settings.windowWidth;
+		double yRatio = Settings.screenHeight / Settings.windowHeight;
+		
+		Settings.setScale(Math.min(xRatio, yRatio)*1.1);
 	}
 
 }

@@ -53,7 +53,6 @@ public abstract class Stack {
 	// returns cardIndex that was selected
 
 	public int clickInBounds(MouseEvent click) {
-		double inverseScale = 1/Settings.getScale();
 		int x = (int) Utility.inverseScaled(click.getX());
 		int y = (int) Utility.inverseScaled(click.getY());
 		return clickInBounds(x, y);

@@ -14,14 +14,13 @@ import javax.swing.Timer;
 
 public class GamePanel extends JPanel {
 
-	Dimension dim = new Dimension((int) (1060 * Settings.getScale()), (int) (Settings.getScale()*700));
 	Color backGround = new Color(0, 220, 235);
 	GameBoard board = new GameBoard();
 
 	Timer repaintTimer;
 
 	public GamePanel() {
-		this.setPreferredSize(dim);
+		this.setPreferredSize(Settings.scaledWindowSize());
 		this.setBackground(backGround);
 		setUpMouseListeners();
 		setUpRepaintTimer();
