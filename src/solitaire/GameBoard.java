@@ -57,10 +57,10 @@ public class GameBoard {
 		}
 
 		// Deals Deck
-		stacks[11] = new DeckStack(fullDeck.dealRandomCards(10), deckX, deckY);
+		stacks[11] = new DeckStack(fullDeck.dealRandomCards(24), deckX, deckY);
 
 		// Creates empty Waste
-		stacks[12] = new WasteStack(fullDeck.dealRandomCards(1), wasteX, wasteY);
+		stacks[12] = new WasteStack(wasteX, wasteY);
 
 	}
 
@@ -80,6 +80,7 @@ public class GameBoard {
 		draggedStack = new MovingStack(stackClicked, press);
 
 		StackType type = stackClicked.getType();
+		System.out.println(type);
 
 		System.out.println("GOT HERE!");
 		if (type == StackType.TABLEAU) {
@@ -91,6 +92,7 @@ public class GameBoard {
 			draggedStack.add(stackClicked.pop());
 		} else if (type == StackType.WASTE) {
 			draggedStack.add(stackClicked.pop());
+			System.out.println("ayy lmao");
 		}
 	}
 

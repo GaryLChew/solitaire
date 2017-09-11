@@ -8,13 +8,9 @@ import solitaire.Stack.StackType;
 
 public class WasteStack extends Stack {
 
-	public WasteStack(List<Card> cards, double x, double y) {
-		super(cards, x, y);
-		super.setType(StackType.WASTE);
-	}
-
 	public WasteStack(double x, double y) {
 		super(new ArrayList<Card>(), x, y);
+		super.setType(StackType.WASTE);
 	}
 
 	@Override
@@ -31,8 +27,6 @@ public class WasteStack extends Stack {
 	public int clickInBounds(int clickX, int clickY) {
 		int x = super.getX(), y = super.getY();
 		if (x <= clickX && clickX < x + Card.CARD_WIDTH) {
-			System.out.println("here2");
-			
 			//TOFIX account for size = 0?
 			int lastCardY = y + Card.CARD_SPACING * (super.size() - 1);
 			if (lastCardY <= clickY && clickY < lastCardY + Card.CARD_HEIGHT) {
