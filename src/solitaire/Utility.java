@@ -1,13 +1,21 @@
 package solitaire;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
@@ -36,16 +44,35 @@ public class Utility {
 		return img;
 	}
 
-	public static void playVictorySound(String filePath) {
-		AudioStream sound = null;
+	public static void playSound(String filePath) {
 		try {
 			URL url = Utility.class.getResource(filePath);
-			sound = new AudioStream(url.openStream());
+			AudioStream sound = new AudioStream(url.openStream());
+			AudioPlayer.player.start(sound);
 		} catch (Exception e) {
 			System.out.println("Problem opening a sound");
 			e.printStackTrace();
 		}
-		AudioPlayer.player.start(sound);
+	}
+
+	// TOFIX move this somewhere else later
+	private static Timer songTimer;
+
+	public static void playBGSong() {
+		playSound(Directories.songFP);
+		try {
+			songTimer = new Timer(190 * 1000, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					playSound(Directories.songFP);
+				}
+			});
+		} catch (Exception e) {
+
+			System.out.println("Problem opening the background song");
+			e.printStackTrace();
+		}
+		songTimer.start();
 	}
 
 	// Draws image scaled user's resolution

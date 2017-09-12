@@ -8,7 +8,7 @@ public class Directories {
 
 	private static String imagesFP = resourceFP + "/images";
 
-	public static String cardsFP = imagesFP + "/cards";
+	private static String cardsFP = imagesFP + "/cards";
 
 	public static String cardEmptyFP = cardsFP + "/cardBack_empty.png";
 	public static String cardBackFP = cardsFP + "/cardBack_blue4.png";
@@ -16,4 +16,10 @@ public class Directories {
 	public static String cardFront(String suit, String rank) {
 		return "/res/images/cards/card" + suit + rank + ".png";
 	}
+	
+	
+	private static String soundsFP = resourceFP + "/sounds";
+	
+	public static String songFP = soundsFP + "/bgSong.wav";
+	public static String cardPlaceFP = soundsFP + "/cardPlace1.wav";
 }

@@ -80,9 +80,7 @@ public class GameBoard {
 		draggedStack = new MovingStack(stackClicked, press);
 
 		StackType type = stackClicked.getType();
-		System.out.println(type);
 
-		System.out.println("GOT HERE!");
 		if (type == StackType.TABLEAU) {
 			int cardIndex = stackClicked.clickInBounds(press);
 			draggedStack.add(stackClicked.removeCards(cardIndex));
@@ -92,7 +90,6 @@ public class GameBoard {
 			draggedStack.add(stackClicked.pop());
 		} else if (type == StackType.WASTE) {
 			draggedStack.add(stackClicked.pop());
-			System.out.println("ayy lmao");
 		}
 	}
 
@@ -133,6 +130,7 @@ public class GameBoard {
 				stackPressed.peek().setFaceUp(true);
 			}
 		}
+		Utility.playSound(Directories.cardPlaceFP);
 	}
 
 	private void returnDraggedStackToOriginal() {

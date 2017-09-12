@@ -16,6 +16,7 @@ public class SolitaireLauncher {
 
 					SolitaireFrame frame = new SolitaireFrame();
 					frame.setVisible(true);
+					Utility.playBGSong();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -34,7 +34,6 @@ public class WasteStack extends Stack {
 				if (super.size()==0) {
 					return 0;
 				}
-				System.out.println("In bounds!");
 				return super.size() - 1;
 			}
 

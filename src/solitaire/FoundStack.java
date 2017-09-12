@@ -44,10 +44,8 @@ public class FoundStack extends Stack {
 
 	@Override
 	public boolean legalMove(Stack entry) {
-		System.out.println("CHECKING");
 		Card firstEntryCard = entry.getCard(0);
 
-		System.out.println(firstEntryCard.getValue());
 		if (super.size() == 0 && firstEntryCard.getValue() == 1) {
 			return true;
 		}
